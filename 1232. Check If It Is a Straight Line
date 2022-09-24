@@ -1,0 +1,35 @@
+using System;
+using System.Linq;
+public class Solution {
+    public static bool CheckStraightLine(int[][] coordinates) {
+        var dx = coordinates[1][0] - coordinates[0][0];
+        var dy = coordinates[1][1] - coordinates[0][1];
+        if (dx == 0) {
+            return coordinates.All(x => x[0] == coordinates[0][0]);
+        }
+        else {
+            var k = (decimal)dy / dx;
+            for (var q=2; q<coordinates.Length; q++) {
+                var curDx = coordinates[q][0] - coordinates[0][0];
+                var curDy = coordinates[q][1] - coordinates[0][1];
+                if (curDx == 0 || k != (decimal)curDy / curDx) return false;
+            }
+        }
+        return true;
+    }
+	public static void Main () 
+	{
+		int[][] arr = {
+		new int[] {1,2},
+		new int[] {2,3},
+		new int[] {3,4},
+		new int[] {4,5},
+		new int[] {5,6},
+		new int[] {6,7}
+		};
+				
+	Console.Write(CheckStraightLine(arr));
+		
+	}
+}
+//output>> true
