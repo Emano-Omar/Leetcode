@@ -1,0 +1,17 @@
+public class Solution {
+    public string ToLowerCase(string s) {       
+        if (s == null || s == string.Empty)
+            return s;
+        
+        char[] res = new char[s.Length];
+        
+        for (int i = 0; i < s.Length; i++)
+            if (s[i] >= 'A' && s[i] <= 'Z')
+                res[i] = (char)(s[i] + 32);
+            else
+                res[i] = s[i];
+        
+        return new string(res);
+    }
+        
+    }
