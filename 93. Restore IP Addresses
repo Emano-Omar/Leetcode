@@ -1,0 +1,71 @@
+public class Solution {
+    public IList<string> RestoreIpAddresses(string s) {
+        if(s == null || s.Length < 4)
+        {
+            return new List<string>();
+        }
+        
+        var list = new List<string>(); 
+        var ips = new List<List<string>>(); 
+        
+        runDFS(s, 0, list, ips);
+        
+        var result = new List<string>(); 
+        foreach(var item in ips)
+        {
+            result.Add(string.Join(".", item));
+        }
+        
+        return result; 
+    }
+    
+    // DFS - search - backtracking
+    private static void runDFS(string s, int start, List<string> list, List<List<string>> ips)
+    {
+        var length = s.Length; 
+        var count = list.Count;       
+                
+        // base case
+        if(count == 4)
+        {
+            if(start < length)
+            {
+                return;
+            }
+            
+            var copyList = list.ToList();
+            ips.Add(copyList);
+            return;             
+        }
+        
+        if(start >= length)
+            return; 
+        
+        // one digit
+        list.Add(s[start].ToString());
+        runDFS(s, start + 1, list, ips);
+        list.RemoveAt(list.Count - 1);
+        
+        // two digits
+        if(s[start] != '0' && start + 1 < length)
+        {
+            var number = s.Substring(start, 2);       
+        
+            list.Add(number);
+            runDFS(s, start + 2, list, ips);             
+            list.RemoveAt(list.Count - 1);            
+        }
+        
+        // three digits
+        if(start + 2 < length && s[start] != '0')
+        {
+            var number = Convert.ToInt32(s.Substring(start, 3)); 
+            if(number <= 255)
+            {
+                list.Add(number.ToString());
+                runDFS(s, start + 3, list, ips);             
+                list.RemoveAt(list.Count - 1);
+            }                        
+        }
+    }
+}
