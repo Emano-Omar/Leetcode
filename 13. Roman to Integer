@@ -1,0 +1,41 @@
+public class Solution {
+    public int RomanToInt(string s) {
+        Stack<char> stack = new(s);
+        int res = 0;
+        Dictionary<char, int> dict = new()
+        {
+            { 'I', 1 },
+            { 'V', 5 },
+            { 'X', 10 },
+            { 'L', 50 },
+            { 'C', 100 },
+            { 'D', 500 },
+            { 'M', 1000 },
+        };
+        
+        while(stack.Any())
+        {
+            int num = dict[stack.Pop()];
+            if(stack.Any())
+            {
+                int prev = dict[stack.Peek()];
+                num = prev switch
+                {
+                        1 => (num == 5 || num == 10) ? Subtract(num, prev, stack) : num,
+                        10 => (num == 50 || num == 100) ? Subtract(num, prev, stack) : num,
+                        100 => (num == 500 || num == 1000) ? Subtract(num, prev, stack) : num,
+                        _ => num
+                };
+            }
+            res += num;
+        }
+        
+        return res;
+    }
+    
+    private int Subtract(int num, int prev, Stack<char> s)
+    {
+        s.Pop();
+        return num - prev;
+    }
+}
